@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fiap-mongodb-service
+spec:
+  selector:
+    app: fiap-mongodb-pod
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "fiap-mongodb-pod"
+  labels: 
+    app: "fiap-mongodb-pod"
+spec:
+  containers: 
+    - name: fiap-mongodb
+      image: mongo:latest
+      ports:
+        - containerPort: 27017
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "root"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "AOjtR096G3l"
+      volumeMounts:
+        - name: mongodb-data
+          mountPath: /data/db  
+
+  volumes:
+    - name: mongodb-data
+      emptyDir: {}  
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-apis-deployment
+  labels: 
+    app: "fiap-apis-deployment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-apis-pod
+  template:
+    metadata:
+      labels:
+        app: fiap-apis-pod
+    spec:
+      containers:
+        - name: fiap-apis
+          image: andersonarsilva/fiap-31-pedidos:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              value: "mongo"
+            - name: DB_HOST
+              value: "fiap-mongodb-service"
+            - name: DB_PORT
+              value: "27017"
+            - name: DB_DATABASE
+              value: "pixel"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASS
+              value: "AOjtR096G3l"
+            - name: MELI_USER_ID
+              value: "157842011"
+            - name: MELI_POSID
+              value: "FIAPPOS1ID001EI"
+            - name: MELI_TOKEN
+              value: "TEST-5280888108209556-082015-12141a0d353a6aa1b7470514dbfded0c-157842011"
+            - name: MELI_WEBHOOK
+              value: "https://webhook.site/ceba216a-b6cf-4df2-ace7-28c2313b7e06"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: "fiap-apis-nodeport"
+spec:
+  type: NodePort
+  selector:
+    app: "fiap-apis-pod"
+  ports:
+    - port: 8080
+      nodePort: 30000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fiap-loadbalancer-service
+spec:
+  selector:
+    app: fiap-apis-pod
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: LoadBalancer

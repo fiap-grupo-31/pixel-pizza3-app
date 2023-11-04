@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: AOjtR096G3l
+      MONGO_INITDB_gatewaydatabase: pixel
+      MONGODB_DATA_DIR: /data/db
+      MONGODB_LOG_DIR: /dev/nul
+    ports:
+      - 3004:27017
+      - 3005:80
+    volumes: 
+      - ./mongodb:/data/db
+    networks:
+      pixel:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_DRIVER: mongo
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_DATABASE: pixel
+      DB_USER: root
+      DB_PASS: AOjtR096G3l
+      DNS_PUBLIC: 'http://localhost:8080'
+      MELI_USER_ID: 157842011
+      MELI_POSID: FIAPPOS1ID001EI
+      MELI_TOKEN: 
+      MELI_WEBHOOK: https://webhook.site/ceba216a-b6cf-4df2-ace7-28c2313b7e06
+    depends_on:
+      - mongo
+    networks:
+        pixel:
+
+networks:
+    pixel:

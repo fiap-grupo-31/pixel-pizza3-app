@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "fiap-apis-pod"
+  labels: 
+    app: "fiap-apis-pod"
+spec:
+  containers: 
+    - name: fiap-apis
+      image: andersonarsilva/fiap-31-pedidos:1.0
+      ports:
+        - containerPort: 8080
+      env:
+        - name: DB_DRIVER
+          value: "mongo"
+        - name: DB_HOST
+          value: "fiap-mongodb-service"
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_DATABASE
+          value: "pixel"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASS
+          value: "AOjtR096G3l"
+        - name: MELI_USER_ID
+          value: "157842011"
+        - name: MELI_POSID
+          value: "FIAPPOS1ID001EI"
+        - name: MELI_TOKEN
+          value: "TEST-5280888108209556-082015-12141a0d353a6aa1b7470514dbfded0c-157842011"
+        - name: MELI_WEBHOOK
+          value: "https://webhook.site/ceba216a-b6cf-4df2-ace7-28c2313b7e06"
+        - name: DB_STRING_CLOUD
+          value: "mongodb+srv://admin:7BgCUFhgZbtaUX7I@cluster0.x0xxwrc.mongodb.net/fastfood?retryWrites=true&w=majority"

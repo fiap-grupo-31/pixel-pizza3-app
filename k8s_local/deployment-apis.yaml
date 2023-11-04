@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-apis-deployment
+  labels: 
+    app: "fiap-apis-deployment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-apis-pod
+  template:
+    metadata:
+      labels:
+        app: fiap-apis-pod
+    spec:
+      containers:
+        - name: fiap-apis
+          image: andersonarsilva/fiap-31-pedidos:1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_DRIVER
+              value: "mongo"
+            - name: DB_HOST
+              value: "fiap-mongodb-service"
+            - name: DB_PORT
+              value: "27017"
+            - name: DB_DATABASE
+              value: "pixel"
+            - name: DB_USER
+              value: "root"
+            - name: DB_PASS
+              value: "AOjtR096G3l"
+            - name: DB_STRING_CLOUD
+              value: "mongodb+srv://admin:7BgCUFhgZbtaUX7I@cluster0.x0xxwrc.mongodb.net/fastfood?retryWrites=true&w=majority"

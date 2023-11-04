@@ -1,0 +1,10 @@
+resources:
+- configmap.yaml
+- deployment.yaml
+- namespace.yaml
+- services-loadbalance.yaml
+
+images:
+- name: amazonaws.com/fiap-pixels
+  newName: ${ECR_REPOSITORY}
+  newTag: ${IMAGE_TAG}
