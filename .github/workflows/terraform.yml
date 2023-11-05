@@ -55,9 +55,14 @@ jobs:
       run: |
         export ENDPOINT_DB=$(aws docdb describe-db-instances --db-instance-identifier pixels-db --query 'DBInstances[0].Endpoint.Address' --output text)
         echo $ENDPOINT_DB
+        export ENDPOINT_ECR=$(aws ecr describe-repositories --repository-names fiap-pixels --query 'repositories[0].repositoryUri' --output text)
+        echo $ENDPOINT_ECR
         cp k8s/configmap.tmpl.yaml k8s/configmap.yaml
         sed -i 's|REPLACE_DB_STRING_CLOUD|'"$ENDPOINT_DB"'|g' k8s/configmap.yaml
         cat k8s/configmap.yaml
+        cp k8s/deployment.tmpl.yaml k8s/deployment.yaml
+        sed -i 's|ENDPOINT_ECR|'"$ENDPOINT_ECR"'|g' k8s/deployment.yaml
+        cat k8s/deployment.yaml
 
     - name: Login em Amazon ECR
       id: login-ecr
