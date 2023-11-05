@@ -3,8 +3,6 @@
 ![Static Badge](https://img.shields.io/badge/v18-version?logo=mongodb&color=%234169E1&labelColor=white&label=Mongodb)
 ![Static Badge](https://img.shields.io/badge/v11-version?logo=ubuntu&color=%234169E1&labelColor=white&label=Ubuntu) ![Static Badge](https://img.shields.io/badge/v20-version?logo=docker&color=%234169E1&labelColor=white&label=Docker) ![Static Badge](https://img.shields.io/badge/v1.29.2-version?logo=dockercompose&color=%234169E1&labelColor=white&label=DockerCompose) ![Static Badge](https://img.shields.io/badge/vOAS3-version?logo=swagger&color=%234169E1&labelColor=white&label=Swagger)
 
-
-
 # Tech Challenge - Fase 03 (GRUPO 31) - Sistema de gestão de pedidos
 
 Consiste no backend de um sistema de gestão de pedidos para autoatendimento incluindo as seguintes caracteristicas:
