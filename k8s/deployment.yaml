@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fiap-apis
-          image: 181793618803.dkr.ecr.us-east-1.amazonaws.com/fiap-pixels:latest
+          image: 070771650728.dkr.ecr.us-east-1.amazonaws.com/fiap-pixels:latest
           ports:
             - containerPort: 8080
           envFrom:
